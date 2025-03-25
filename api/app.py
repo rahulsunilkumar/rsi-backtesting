@@ -3,7 +3,7 @@ import random
 import plotly.graph_objects as go
 from plotly.offline import plot
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 # Define tickers and simulation length
 TICKERS = ["VTI", "QQQ", "VT", "DIA", "SPY"]
@@ -112,6 +112,8 @@ def index():
     weight_per_stock = float(request.values.get("weight", 0.05))
 
     # Generate dummy dataset for each ticker
+    TICKERS = ["VTI", "QQQ", "VT", "DIA", "SPY"]
+    NUM_DAYS = 200
     dataset = {tick: fetch_dummy_data(tick) for tick in TICKERS}
 
     # Run the RSI trading strategy simulation
@@ -145,5 +147,6 @@ def index():
         weight=weight_per_stock
     )
 
+# Make sure Vercel can find the 'app' object
 if __name__ == "__main__":
     app.run(debug=True)
